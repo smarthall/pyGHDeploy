@@ -40,10 +40,16 @@ class Server:
     # Call plugins
     for repo in self.config['githubrepo']:
       if repo['name'] == data['repository']['name']:
-        plug = getattr(actions, repo['action'])
-        print plug(summary)
+        self.callaction(summary, repo['action'])
 
     # Output
     return "ok.\n"
   github.exposed = True
+
+  def callaction(self, summary, action):
+    actionlist = action.split(' ')
+
+    plug = getattr(actions, actionlist[0])
+    print plug(summary)
+    
 
