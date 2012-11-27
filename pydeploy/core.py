@@ -1,5 +1,5 @@
 import json, yaml, os
-import plugins
+import actions
 
 class Server:
   def __init__(self):
@@ -34,7 +34,7 @@ class Server:
     for repo in self.config['githubrepo']:
       if repo['name'] == data['repository']['name']:
         reply['action'] = repo['action']
-        plug = getattr(plugins, repo['action']['name'])
+        plug = getattr(actions, repo['action']['name'])
         plug(reply)
 
     message = json.dumps(reply, sort_keys=True, indent=4) + "\n"
