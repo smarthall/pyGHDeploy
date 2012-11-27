@@ -2,8 +2,16 @@
 githubrepo:
   - name: "webHookTest"
     file: ".*"
-    plugin:
-    - name: print
+    action:
+      name: argprint
       args:
       - arg1
       - arg2
+  - name: "MetricsAtHome"
+    file: ".*"
+    action:
+      name: argprint
+      args:
+
+
+
