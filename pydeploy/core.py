@@ -1,12 +1,15 @@
 import json, yaml, os
+import plugins
 
 class Server:
   def __init__(self):
     # Process the config
     if os.path.exists('/etc/pydeploy.yaml'):
-      config = yaml.safe_load(open('/etc/pydeploy.yaml','r'))
+      self.config = yaml.safe_load(open('/etc/pydeploy.yaml','r'))
+    if os.path.exists('conf/local.yaml'):
+      self.config = yaml.safe_load(open('conf/local.yaml','r'))
     else:
-      config = yaml.safe_load(open('conf/default.yaml','r'))
+      self.config = yaml.safe_load(open('conf/default.yaml','r'))
 
   def index(self):
     return "Hello world!"
@@ -23,11 +26,13 @@ class Server:
       removed.extend(commit['removed'])
       reply = {
           'name': data['repository']['name'],
-          'added': added,
-          'modified': modified,
-          'removed': removed
+          'url': data['repository']['url'],
+          'added': list(set(added)),
+          'modified': list(set(modified)),
+          'removed': list(set(removed))
       }
     message = json.dumps(reply, sort_keys=True, indent=4) + "\n"
+    message += json.dumps(self.config, sort_keys=True, indent=4) + "\n"
     return message
   github.exposed = True
 

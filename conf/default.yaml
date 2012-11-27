@@ -1,2 +1,9 @@
 ---
-
+githubrepo:
+  - name: "webHookTest"
+    file: ".*"
+    plugin:
+    - name: print
+      args:
+      - arg1
+      - arg2
