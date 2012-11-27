@@ -2,16 +2,10 @@
 githubrepo:
   - name: "webHookTest"
     file: ".*"
-    action:
-      name: argprint
-      args:
-      - arg1
-      - arg2
+    action: argprint
   - name: "MetricsAtHome"
     file: ".*"
-    action:
-      name: argprint
-      args:
+    action: argprint
 
 
 

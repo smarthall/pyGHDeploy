@@ -16,29 +16,34 @@ class Server:
   index.exposed = True
 
   def github(self, payload=None):
+    # Load the JSON payload
+    data = json.loads(payload)
+
+    # Count files changed
     added = []
     modified = []
     removed = []
-    data = json.loads(payload)
     for commit in data['commits']:
       added.extend(commit['added'])
       modified.extend(commit['modified'])
       removed.extend(commit['removed'])
-    reply = {
+
+    # Make summary
+    summary = {
         'name': data['repository']['name'],
         'url': data['repository']['url'],
         'added': list(set(added)),
         'modified': list(set(modified)),
         'removed': list(set(removed))
     }
+
+    # Call plugins
     for repo in self.config['githubrepo']:
       if repo['name'] == data['repository']['name']:
-        reply['action'] = repo['action']
-        plug = getattr(actions, repo['action']['name'])
-        plug(reply)
+        plug = getattr(actions, repo['action'])
+        print plug(summary)
 
-    message = json.dumps(reply, sort_keys=True, indent=4) + "\n"
-    message += json.dumps(self.config, sort_keys=True, indent=4) + "\n"
-    return message
+    # Output
+    return "ok.\n"
   github.exposed = True
 

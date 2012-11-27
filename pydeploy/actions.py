@@ -1,2 +1,2 @@
-def argprint(data):
-  print data['action']['args']
+def argprint(summary):
+  return summary
