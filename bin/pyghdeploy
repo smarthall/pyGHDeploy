@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import cherrypy
+import cherrypy, json
 
 class HelloWorld:
   def index(self):
@@ -8,7 +8,10 @@ class HelloWorld:
   index.exposed = True
 
   def github(self, payload=None):
-    return "ok.\n"
+    data = json.loads(payload)
+    message = json.dumps(data, sort_keys=True, indent=4) + "\n"
+    message += data['repository']['name'] + "\nok.\n"
+    return message
   github.exposed = True
 
 cherrypy.quickstart(HelloWorld())
