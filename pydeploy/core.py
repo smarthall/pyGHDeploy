@@ -1,6 +1,13 @@
-import json
+import json, yaml, os
 
 class Server:
+  def __init__(self):
+    # Process the config
+    if os.path.exists('/etc/pydeploy.yaml'):
+      config = yaml.safe_load(open('/etc/pydeploy.yaml','r'))
+    else:
+      config = yaml.safe_load(open('conf/default.yaml','r'))
+
   def index(self):
     return "Hello world!"
   index.exposed = True
@@ -10,7 +17,6 @@ class Server:
     modified = []
     removed = []
     data = json.loads(payload)
-    message = json.dumps(data, sort_keys=True, indent=4) + "\n"
     for commit in data['commits']:
       added.extend(commit['added'])
       modified.extend(commit['modified'])
@@ -21,8 +27,7 @@ class Server:
           'modified': modified,
           'removed': removed
       }
-    message += json.dumps(reply, sort_keys=True, indent=4) + "\n"
-    message += "ok.\n"
+    message = json.dumps(reply, sort_keys=True, indent=4) + "\n"
     return message
   github.exposed = True
 
