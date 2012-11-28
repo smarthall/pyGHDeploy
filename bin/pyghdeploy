@@ -5,5 +5,6 @@ sys.path.append(".")
 
 from pydeploy import core
 
+cherrypy.engine.timeout_monitor.unsubscribe()
 cherrypy.quickstart(core.Server())
 
