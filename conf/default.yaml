@@ -3,6 +3,9 @@ githubrepo:
   - name: "webHookTest"
     file: ".*"
     action: argprint
+    args:
+      arg1: True
+      arg2: "Friday"
   - name: "MetricsAtHome"
     file: ".*"
     action: argprint

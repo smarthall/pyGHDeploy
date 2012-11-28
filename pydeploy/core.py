@@ -1,4 +1,5 @@
 import json, yaml, os
+import git
 import actions
 
 class Server:
@@ -16,6 +17,8 @@ class Server:
   index.exposed = True
 
   def github(self, payload=None):
+    print "\n\n\n\n"
+
     # Load the JSON payload
     data = json.loads(payload)
 
@@ -28,10 +31,21 @@ class Server:
       modified.extend(commit['modified'])
       removed.extend(commit['removed'])
 
+    # Clone/update the repo
+    repopath = "/tmp/" + data['repository']['name']
+    if not os.path.exists(repopath):
+        git.Git().clone(data['repository']['url'], repopath)
+
+    repo = git.Repo(repopath)
+    repo.git.reset('HEAD', hard=True)
+    repo.git.pull(rebase=True)
+
     # Make summary
     summary = {
         'name': data['repository']['name'],
         'url': data['repository']['url'],
+        'path': repopath,
+        'repo': repo,
         'added': list(set(added)),
         'modified': list(set(modified)),
         'removed': list(set(removed))
@@ -40,16 +54,14 @@ class Server:
     # Call plugins
     for repo in self.config['githubrepo']:
       if repo['name'] == data['repository']['name']:
-        self.callaction(summary, repo['action'])
+        self.callaction(summary, repo['action'], repo['args'])
 
     # Output
     return "ok.\n"
   github.exposed = True
 
-  def callaction(self, summary, action):
-    actionlist = action.split(' ')
-
-    plug = getattr(actions, actionlist[0])
-    print plug(summary)
+  def callaction(self, summary, action, args):
+    plug = getattr(actions, action)
+    print plug(summary, args)
     
 
