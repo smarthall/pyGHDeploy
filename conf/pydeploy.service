@@ -1,0 +1,12 @@
+[Unit]
+Description=The daemon running the display
+ConditionPathExists=|/opt/pyGHDeploy
+
+[Service]
+WorkingDirectory=/opt/pyGHDeploy
+ExecStart=/usr/bin/python bin/pyghdeploy
+RestartSec=300
+
+[Install]
+WantedBy=multi-user.target
+
