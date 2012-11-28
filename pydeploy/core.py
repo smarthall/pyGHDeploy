@@ -31,15 +31,6 @@ class Server:
       modified.extend(commit['modified'])
       removed.extend(commit['removed'])
 
-    # Clone/update the repo
-    repopath = "/tmp/" + data['repository']['name']
-    if not os.path.exists(repopath):
-        git.Git().clone(data['repository']['url'], repopath)
-
-    repo = git.Repo(repopath)
-    repo.git.reset('HEAD', hard=True)
-    repo.git.pull(rebase=True)
-
     # Make summary
     summary = {
         'name': data['repository']['name'],
