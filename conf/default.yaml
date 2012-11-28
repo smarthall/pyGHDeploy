@@ -2,13 +2,17 @@
 githubrepo:
   - name: "webHookTest"
     file: ".*"
+    action: command
+    args:
+      - /bin/sleep
+      - "15"
+  - name: "MetricsAtHome"
+    file: ".*"
     action: argprint
     args:
       arg1: True
       arg2: "Friday"
-  - name: "MetricsAtHome"
-    file: ".*"
-    action: argprint
+
 
 
 
