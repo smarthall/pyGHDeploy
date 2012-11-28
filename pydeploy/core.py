@@ -35,8 +35,6 @@ class Server:
     summary = {
         'name': data['repository']['name'],
         'url': data['repository']['url'],
-        'path': repopath,
-        'repo': repo,
         'added': list(set(added)),
         'modified': list(set(modified)),
         'removed': list(set(removed))
