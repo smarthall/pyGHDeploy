@@ -7,7 +7,7 @@ class Server:
     # Process the config
     if os.path.exists('/etc/pydeploy.yaml'):
       self.config = yaml.safe_load(open('/etc/pydeploy.yaml','r'))
-    if os.path.exists('conf/local.yaml'):
+    elif os.path.exists('conf/local.yaml'):
       self.config = yaml.safe_load(open('conf/local.yaml','r'))
     else:
       self.config = yaml.safe_load(open('conf/default.yaml','r'))
