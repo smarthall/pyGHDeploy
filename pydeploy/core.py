@@ -42,9 +42,7 @@ class Server:
 
     # Call plugins
     for repo in self.config['githubrepo']:
-      print "Checking" + str(repo)
       if repo['name'] == data['repository']['name']:
-        print "Hit for: " + data['repository']['name']
         self.callaction(summary, repo['action'], repo['args'])
 
     # Output
