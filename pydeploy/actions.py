@@ -1,5 +1,6 @@
 import subprocess, os
 import git, shutil
+import hashlib
 
 def argprint(summary, args):
   return summary
