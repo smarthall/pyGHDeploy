@@ -8,7 +8,7 @@ def command(summary, args):
   return subprocess.call(args)
 
 def ansible(summary, args):
-  repopath = "/tmp/ansiblerepo"
+  repopath = "/tmp/" + hashlib.md5(args['ansiblerepo']).hexdigest()
   if not os.path.exists(repopath):
       git.Git().clone(args['ansiblerepo'], repopath)
 
@@ -18,7 +18,5 @@ def ansible(summary, args):
 
   result = subprocess.call(['/usr/bin/ansible-playbook',
                            repopath + "/" + args['filename']])
-  
-  shutil.rmtree(repopath)
   return result
 
