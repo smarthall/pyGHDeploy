@@ -16,8 +16,8 @@ def ansible(summary, args):
   repo.git.reset('HEAD', hard=True)
   repo.git.pull(rebase=True)
 
-  result = subprocess.call('/usr/bin/ansible-playbook',
-                           repopath + "/" + args['filename'])
+  result = subprocess.call(['/usr/bin/ansible-playbook',
+                           repopath + "/" + args['filename']])
   
   shutil.rmtree(repopath)
   return result
